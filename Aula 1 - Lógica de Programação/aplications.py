@@ -57,11 +57,19 @@
 # print(f"Média: {sum(pesos)/len(pesos):.2f}kg") 
 # print(f"Total: R$ {sum(precos):.2f}")
 
-animais = ["cachorro", "gato", "elefante", "leão", "tigre", "gato", "gato", "coelho", "gato", "papagaio", "gato"]
+# animais = ["cachorro", "gato", "elefante", "leão", "tigre", "gato", "gato", "coelho", "gato", "papagaio", "gato"]
 
-print ("há", animais.count("gato"), "gatos na lista")
-print ("Há ", animais.count("cachorro"), "cachorros na lista")
-print("o leão está na posição", animais.index("leão"))
-print("o elefante está na posição", animais.index("elefante"))
-animais.sort()
-print(animais)
+# print ("há", animais.count("gato"), "gatos na lista")
+# print ("Há ", animais.count("cachorro"), "cachorros na lista")
+# print("o leão está na posição", animais.index("leão"))
+# print("o elefante está na posição", animais.index("elefante"))
+# animais.sort()
+# print(animais)
+
+notas = []
+for i in range(5):
+    nota = float(input(f"Digite a nota {i+1}: "))
+    notas.append(nota)
+media = sum(notas) / len(notas)
+print(f"A média das notas é: {media:.2f}")
+print(f"As notas acima da média são:{[nota for nota in notas if nota > media]}")
