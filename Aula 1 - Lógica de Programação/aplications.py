@@ -41,18 +41,27 @@
 
 # print(f"Total vendido: R$ {total:.2f}")
 
-qtd = int(input("Quantos produtos? "))
+# qtd = int(input("Quantos produtos? "))
 
-pesos = []
-precos = []
+# pesos = []
+# precos = []
 
-for i in range(qtd):
-    p = float(input("Peso (kg): "))
-    pk = float(input("Preço/kg: R$ "))
-    pesos.append(p)
-    precos.append(p * pk)
+# for i in range(qtd):
+#     p = float(input("Peso (kg): "))
+#     pk = float(input("Preço/kg: R$ "))
+#     pesos.append(p)
+#     precos.append(p * pk)
 
-print(f"\nMaior: {max(pesos)}kg")
-print(f"Menor: {min(pesos)}kg")
-print(f"Média: {sum(pesos)/len(pesos):.2f}kg") 
-print(f"Total: R$ {sum(precos):.2f}")
+# print(f"\nMaior: {max(pesos)}kg")
+# print(f"Menor: {min(pesos)}kg")
+# print(f"Média: {sum(pesos)/len(pesos):.2f}kg") 
+# print(f"Total: R$ {sum(precos):.2f}")
+
+animais = ["cachorro", "gato", "elefante", "leão", "tigre", "gato", "gato", "coelho", "gato", "papagaio", "gato"]
+
+print ("há", animais.count("gato"), "gatos na lista")
+print ("Há ", animais.count("cachorro"), "cachorros na lista")
+print("o leão está na posição", animais.index("leão"))
+print("o elefante está na posição", animais.index("elefante"))
+animais.sort()
+print(animais)
