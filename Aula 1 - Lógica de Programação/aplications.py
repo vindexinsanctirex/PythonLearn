@@ -1,0 +1,42 @@
+# Sistema de Vendas Simplificado
+
+qtd = int(input("Quantos produtos vendeu hoje? "))
+
+nomes = []
+pesos = []
+precos_kg = []
+precos_totais = []
+
+for i in range(qtd):
+    print(f"\nProduto {i+1}:")
+    nome = input("Nome: ")
+    peso = float(input("Peso (kg): "))
+    preco_kg_valor = float(input("Preço por kg: R$ "))
+    
+    nomes.append(nome)
+    pesos.append(peso)
+    precos_kg.append(preco_kg_valor)
+    precos_totais.append(peso * preco_kg_valor)
+
+# Relatório
+print("\n=== VENDAS DO DIA ===")
+for i in range(qtd):
+    print(f"{nomes[i]}: {pesos[i]}kg × R$ {precos_kg[i]} = R$ {precos_totais[i]:.2f}")
+
+# Maior e menor peso
+maior = pesos[0]
+menor = pesos[0]
+
+for peso in pesos:
+    maior = max(maior, peso)
+    menor = min(menor, peso)
+
+print(f"\nMaior peso: {maior}kg")
+print(f"Menor peso: {menor}kg")
+
+# Total
+total = 0
+for preco in precos_totais:
+    total += preco
+
+print(f"Total vendido: R$ {total:.2f}")
