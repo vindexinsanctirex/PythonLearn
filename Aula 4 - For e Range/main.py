@@ -33,6 +33,12 @@
 #     print('Número atual:', numero)
     
 
-numero = input('Digite um número: ')
-for digito in range(1, 11):
-    print(f'{numero} x {digito} = {int(numero) * digito}')
+# numero = input('Digite um número: ')
+# for digito in range(1, 11):
+#     print(f'{numero} x {digito} = {int(numero) * digito}')
+    
+# # acumulador variável de soma de 1 a 100
+# soma = 0
+# for numero in range(1, 101):
+#     soma += numero
+# print('Soma de 1 a 100:', soma)
