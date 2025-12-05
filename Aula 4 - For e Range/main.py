@@ -29,5 +29,10 @@
 # for numero in range(23, -23, -6):
 #     print('Número atual:', numero)
 
-for numero in range(1, 11):
-    print('Número atual:', numero)
+# for numero in range(1, 11):
+#     print('Número atual:', numero)
+    
+
+numero = input('Digite um número: ')
+for digito in range(1, 11):
+    print(f'{numero} x {digito} = {int(numero) * digito}')
