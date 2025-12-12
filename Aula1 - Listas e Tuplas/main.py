@@ -61,13 +61,44 @@
 # convertendo_tupla = tuple(convertendo_lista) # Convertendo a lista de volta para tupla
 # print("Lista convertida de volta para tupla:", convertendo_tupla)
 
-produtos = (("camiseta", 2), ("calça", 9), ("tênis", 5), ("boné", 12), ("meia", 0))
+# produtos = (("camiseta", 2), ("calça", 9), ("tênis", 5), ("boné", 12), ("meia", 0))
 
-for produto, quantidade in produtos:
-    print(f"Produto: {produto} - Quantidade: {quantidade}")
-    if quantidade == 0:
-        print(f"O produto {produto} está esgotado.")
-    elif quantidade < 5:
-        print(f"O produto {produto} está com estoque baixo.")
+# for produto, quantidade in produtos:
+#     print(f"Produto: {produto} - Quantidade: {quantidade}")
+#     if quantidade == 0:
+#         print(f"O produto {produto} está esgotado.")
+#     elif quantidade < 5:
+#         print(f"O produto {produto} está com estoque baixo.")
+#     else:
+#         print(f"O produto {produto} está com estoque suficiente.")
+
+# aluno_dados = ("João Silva", 20, 5.0, 7.5, 9.0)
+# nome, idade, *notas = aluno_dados
+# print("Nome:", nome)
+# print("Idade:", idade)
+# print("Notas:", notas)
+# media = sum(notas) / len(notas)
+# print("Média:", f"{media:.1f}")
+# if media >= 7:
+#     print("Aprovado")
+# else:
+#     print("Reprovado")
+
+alunos_dados = (
+    ("Ana", 19, 8.5, 7.0, 9.0),
+    ("Bruno", 22, 6.0, 5.5, 7.0),
+    ("Carla", 20, 9.0, 8.5, 10.0),
+)
+
+for aluno in alunos_dados:
+    nome, idade, *notas = aluno
+    print("Nome:", nome)
+    print("Idade:", idade)
+    print("Notas:", notas)
+    media = sum(notas) / len(notas)
+    print("Média:", f"{media:.1f}")
+    if media >= 7:
+        print("Aprovado")
     else:
-        print(f"O produto {produto} está com estoque suficiente.")
+        print("Reprovado")
+    print("---")
