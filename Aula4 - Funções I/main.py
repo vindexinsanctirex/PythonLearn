@@ -18,36 +18,52 @@
 # saudacao("Ana")
 # saudacao("Bruno", "Espero que você aproveite o curso!")
 
-# usando args q kwargs em tuplas e dicionarios
-def soma_numeros(*args):
-    return sum(args)
+# # usando args q kwargs em tuplas e dicionarios
+# def soma_numeros(*args):
+#     return sum(args)
 
-resultado = soma_numeros(1, 2, 3, 4, 5)
-print("A soma dos números é:", resultado)
+# resultado = soma_numeros(1, 2, 3, 4, 5)
+# print("A soma dos números é:", resultado)
 
-def detalhes_pessoa(**kwargs):
-    for chave, valor in kwargs.items():
-        print(f"{chave}: {valor}")
+# def detalhes_pessoa(**kwargs):
+#     for chave, valor in kwargs.items():
+#         print(f"{chave}: {valor}")
         
-detalhes_pessoa(nome="Carlos", idade=30, cidade="São Paulo")
+# detalhes_pessoa(nome="Carlos", idade=30, cidade="São Paulo")
 
-# crie uma função chamada analisar_numeros, ela deve receber vários números usando *args, dentro da função use um for para somar todos os números e contar quantos números foram passados, depois do for retorne a soma, quantidade e a média dos números. chame a função com 5 diferentes conjuntos de números e imprima os resultados.
-def analisar_numeros(*args):
-    soma = 0
-    quantidade = 0
-    for numero in args:
-        soma += numero
-        quantidade += 1
-    media = soma / quantidade if quantidade > 0 else 0
-    return soma, quantidade, media
+# # crie uma função chamada analisar_numeros, ela deve receber vários números usando *args, dentro da função use um for para somar todos os números e contar quantos números foram passados, depois do for retorne a soma, quantidade e a média dos números. chame a função com 5 diferentes conjuntos de números e imprima os resultados.
+# def analisar_numeros(*args):
+#     soma = 0
+#     quantidade = 0
+#     for numero in args:
+#         soma += numero
+#         quantidade += 1
+#     media = soma / quantidade if quantidade > 0 else 0
+#     return soma, quantidade, media
 
-soma1, qtd1, media1 = analisar_numeros(10, 20, 30)
-print(f"Soma: {soma1}, Quantidade: {qtd1}, Média: {media1}")
-soma2, qtd2, media2 = analisar_numeros(5, 15, 25, 35, 45)
-print(f"Soma: {soma2}, Quantidade: {qtd2}, Média: {media2}")
-soma3, qtd3, media3 = analisar_numeros(1, 2, 3, 4)
-print(f"Soma: {soma3}, Quantidade: {qtd3}, Média: {media3}")
-soma4, qtd4, media4 = analisar_numeros(100, 200)
-print(f"Soma: {soma4}, Quantidade: {qtd4}, Média: {media4}")
-soma5, qtd5, media5 = analisar_numeros(7, 14, 21, 28, 35, 42)
-print(f"Soma: {soma5}, Quantidade: {qtd5}, Média: {media5}")
+# soma1, qtd1, media1 = analisar_numeros(10, 20, 30)
+# print(f"Soma: {soma1}, Quantidade: {qtd1}, Média: {media1}")
+# soma2, qtd2, media2 = analisar_numeros(5, 15, 25, 35, 45)
+# print(f"Soma: {soma2}, Quantidade: {qtd2}, Média: {media2}")
+# soma3, qtd3, media3 = analisar_numeros(1, 2, 3, 4)
+# print(f"Soma: {soma3}, Quantidade: {qtd3}, Média: {media3}")
+# soma4, qtd4, media4 = analisar_numeros(100, 200)
+# print(f"Soma: {soma4}, Quantidade: {qtd4}, Média: {media4}")
+# soma5, qtd5, media5 = analisar_numeros(7, 14, 21, 28, 35, 42)
+# print(f"Soma: {soma5}, Quantidade: {qtd5}, Média: {media5}")
+
+# # crie uma função chamada mostrar_dados, ela deve receber vários dados *kwargs, use um for para mostrar cada chave e valor, chame a função com pelo menos 3 informações.
+# def mostrar_dados(**kwargs):
+#     for chave, valor in kwargs.items():
+#         print(f"{chave}: {valor}")
+        
+# mostrar_dados(nome="Mariana", idade=25, profissão="Engenheira")
+# mostrar_dados(cidade="Rio de Janeiro", país="Brasil", hobby="Fotografia")
+# mostrar_dados(time="Flamengo", título="Campeão Brasileiro", ano=2020)
+
+# crie uma função chamada calcular_media, que receba dois números e calcule a média deles e devolva no return, fora da função armazene o valor retornado em uma variável e mostre a média na tela usando print
+# def calcular_media(num1, num2):
+#     return (num1 + num2) / 2
+
+# media1 = calcular_media(10, 20)
+# print(f"Média de 10 e 20: {media1}")
