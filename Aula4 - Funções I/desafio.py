@@ -5,8 +5,25 @@
 #- mostrar saldo
 # cada conta deve ser representada por um dicionário com nome do titular e saldo
 
+múltiplas_contas = []
+
+
+
+
 def criar_conta(titular, saldo_inicial=0):
     return {"titular": titular, "saldo": saldo_inicial}
+
+conta1 = criar_conta("Alice", 1000)
+múltiplas_contas.append(conta1)
+conta2 = criar_conta("Bob", 500)
+múltiplas_contas.append(conta2)
+conta3 = criar_conta("Charlie")
+múltiplas_contas.append(conta3)
+conta4 = criar_conta("Diana", 750)
+múltiplas_contas.append(conta4)
+conta5 = criar_conta("Ethan", 300)
+múltiplas_contas.append(conta5)
+
 
 def depositar(conta, valor):
     if valor > 0:
@@ -37,18 +54,6 @@ def listar_contas(contas):
     for conta in contas:
         print(f"Titular: {conta['titular']}, Saldo: R${conta['saldo']:.2f}")
     
-múltiplas_contas = []
-
-conta1 = criar_conta("Alice", 1000)
-múltiplas_contas.append(conta1)
-conta2 = criar_conta("Bob", 500)
-múltiplas_contas.append(conta2)
-conta3 = criar_conta("Charlie")
-múltiplas_contas.append(conta3)
-conta4 = criar_conta("Diana", 750)
-múltiplas_contas.append(conta4)
-conta5 = criar_conta("Ethan", 300)
-múltiplas_contas.append(conta5)
 
 def selecionar_opcao():
     print("\nOpções:")
@@ -68,8 +73,11 @@ while True:
         nome = input("Digite o nome do titular: ")
         saldo_inicial = float(input("Digite o saldo inicial (ou 0 para nenhum): "))
         nova_conta = criar_conta(nome, saldo_inicial)
-        múltiplas_contas.append(nova_conta)
-        print(f"Conta criada para {nome} com saldo inicial de R${saldo_inicial:.2f}.")
+        if nova_conta in múltiplas_contas:
+            print("Já existe uma conta com esse titular.")
+        else:
+            múltiplas_contas.append(nova_conta)
+            print(f"Conta criada para {nome} com saldo inicial de R${saldo_inicial:.2f}.")
         
     elif opcao == "2":
         nome = input("Digite o nome do titular da conta para depósito: ")
