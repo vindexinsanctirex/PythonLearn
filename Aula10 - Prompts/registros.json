@@ -1,0 +1,50 @@
+[
+  {
+    "id": 2,
+    "nome": "Mouse Logitech",
+    "descricao": "Mouse sem fio",
+    "valor": 150.5,
+    "data_hora": "20/03/2026 21:20:15",
+    "timestamp": "2026-03-20T21:20:15.212532"
+  },
+  {
+    "id": 3,
+    "nome": "Teclado Mecânico",
+    "descricao": "Teclado RGB",
+    "valor": 299.9,
+    "data_hora": "20/03/2026 21:20:15",
+    "timestamp": "2026-03-20T21:20:15.212755"
+  },
+  {
+    "id": 4,
+    "nome": "Monitor 27\"",
+    "descricao": "Monitor 4K",
+    "valor": 1800.0,
+    "data_hora": "20/03/2026 21:20:15",
+    "timestamp": "2026-03-20T21:20:15.218588"
+  },
+  {
+    "id": 5,
+    "nome": "Cadeira Gamer",
+    "descricao": "Cadeira ergonômica",
+    "valor": 1200.0,
+    "data_hora": "20/03/2026 21:20:15",
+    "timestamp": "2026-03-20T21:20:15.220391"
+  },
+  {
+    "id": 5,
+    "nome": "Birô",
+    "descricao": "Birô moderno de madeira maciça",
+    "valor": 0.01,
+    "data_hora": "20/03/2026 21:30:33",
+    "timestamp": "2026-03-20T21:30:33.437838"
+  },
+  {
+    "id": 6,
+    "nome": "Birô",
+    "descricao": "Birô moderno de madeira maciça",
+    "valor": 3500.0,
+    "data_hora": "20/03/2026 21:30:42",
+    "timestamp": "2026-03-20T21:30:42.260196"
+  }
+]
