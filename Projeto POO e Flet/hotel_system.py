@@ -1,4 +1,4 @@
-# hotel_system.py - Versão Corrigida Final
+# hotel_system.py - Versão Final com Correção de Escopo
 import flet as ft
 from datetime import datetime, date, timedelta
 import uuid
@@ -503,6 +503,10 @@ class HotelApp:
     
     def tela_nova_reserva(self, page: ft.Page):
         """Formulário para criar nova reserva"""
+        # Variáveis para armazenar as datas
+        check_in_date = [None]  # Usando lista para permitir modificação em funções aninhadas
+        check_out_date = [None]
+        
         # Seleção de cliente
         clientes = self.gerenciador.listar_clientes()
         cliente_options = [ft.dropdown.Option(key=c.id, text=c.nome) for c in clientes]
@@ -526,36 +530,51 @@ class HotelApp:
         # Datas
         data_inicio = ft.DatePicker(
             first_date=date.today(),
-            on_change=lambda e: None,
         )
         data_fim = ft.DatePicker(
             first_date=date.today(),
-            on_change=lambda e: None,
         )
+        
+        def open_date_picker(e, picker):
+            page.overlay.append(picker)
+            picker.open = True
+            page.update()
         
         btn_data_inicio = ft.ElevatedButton(
             "Selecionar Check-in",
             icon=ft.Icons.CALENDAR_MONTH,
-            on_click=lambda e: page.open(data_inicio),
+            on_click=lambda e: open_date_picker(e, data_inicio),
         )
         btn_data_fim = ft.ElevatedButton(
             "Selecionar Check-out",
             icon=ft.Icons.CALENDAR_MONTH,
-            on_click=lambda e: page.open(data_fim),
+            on_click=lambda e: open_date_picker(e, data_fim),
         )
         
         txt_data_inicio = ft.Text("Data não selecionada")
         txt_data_fim = ft.Text("Data não selecionada")
         
         def on_data_inicio_change(e):
-            txt_data_inicio.value = f"Check-in: {data_inicio.value.strftime('%d/%m/%Y')}"
-            calcular_total(None)
-            page.update()
+            if data_inicio.value:
+                # Converter datetime para date
+                if hasattr(data_inicio.value, 'date'):
+                    check_in_date[0] = data_inicio.value.date()
+                else:
+                    check_in_date[0] = data_inicio.value
+                txt_data_inicio.value = f"Check-in: {check_in_date[0].strftime('%d/%m/%Y')}"
+                calcular_total(None)
+                page.update()
         
         def on_data_fim_change(e):
-            txt_data_fim.value = f"Check-out: {data_fim.value.strftime('%d/%m/%Y')}"
-            calcular_total(None)
-            page.update()
+            if data_fim.value:
+                # Converter datetime para date
+                if hasattr(data_fim.value, 'date'):
+                    check_out_date[0] = data_fim.value.date()
+                else:
+                    check_out_date[0] = data_fim.value
+                txt_data_fim.value = f"Check-out: {check_out_date[0].strftime('%d/%m/%Y')}"
+                calcular_total(None)
+                page.update()
         
         data_inicio.on_change = on_data_inicio_change
         data_fim.on_change = on_data_fim_change
@@ -564,10 +583,10 @@ class HotelApp:
         txt_valor_total = ft.Text("Valor Total: R$ 0.00", size=16, weight=ft.FontWeight.BOLD)
         
         def calcular_total(e):
-            if quarto_dropdown.value and data_inicio.value and data_fim.value:
+            if quarto_dropdown.value and check_in_date[0] and check_out_date[0]:
                 quarto = self.gerenciador.buscar_quarto(int(quarto_dropdown.value))
                 if quarto:
-                    dias = (data_fim.value - data_inicio.value).days
+                    dias = (check_out_date[0] - check_in_date[0]).days
                     if dias > 0:
                         total = dias * quarto.preco_diaria
                         txt_valor_total.value = f"Valor Total: R$ {total:.2f}"
@@ -588,7 +607,7 @@ class HotelApp:
                 page.update()
                 return
             
-            if not data_inicio.value or not data_fim.value:
+            if not check_in_date[0] or not check_out_date[0]:
                 page.snack_bar = ft.SnackBar(ft.Text("Selecione as datas"), bgcolor=ft.Colors.RED)
                 page.snack_bar.open = True
                 page.update()
@@ -597,8 +616,8 @@ class HotelApp:
             reserva = self.gerenciador.criar_reserva(
                 cliente_dropdown.value,
                 int(quarto_dropdown.value),
-                data_inicio.value,
-                data_fim.value
+                check_in_date[0],
+                check_out_date[0]
             )
             
             if reserva:
@@ -612,6 +631,8 @@ class HotelApp:
                 quarto_dropdown.value = None
                 data_inicio.value = None
                 data_fim.value = None
+                check_in_date[0] = None
+                check_out_date[0] = None
                 txt_data_inicio.value = "Data não selecionada"
                 txt_data_fim.value = "Data não selecionada"
                 txt_valor_total.value = "Valor Total: R$ 0.00"
@@ -643,11 +664,6 @@ class HotelApp:
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         )
         
-        # Adicionar DatePickers à página
-        page.overlay.append(data_inicio)
-        page.overlay.append(data_fim)
-        
-        # Remover alignment problemático e usar um Container simples
         page.add(ft.Container(content=form, padding=20, expand=True))
     
     def tela_visualizar_reservas(self, page: ft.Page):
@@ -722,17 +738,27 @@ class HotelApp:
                 page.snack_bar = ft.SnackBar(ft.Text("Erro ao cancelar reserva"), bgcolor=ft.Colors.RED)
                 page.snack_bar.open = True
                 page.update()
-            page.close(dlg)
+            page.dialog = None
+            dlg.open = False
+            page.update()
         
         dlg = ft.AlertDialog(
             title=ft.Text("Confirmar Cancelamento"),
             content=ft.Text(f"Deseja cancelar a reserva #{reserva.id} do cliente {reserva.cliente.nome}?"),
             actions=[
-                ft.TextButton("Não", on_click=lambda e: page.close(dlg)),
+                ft.TextButton("Não", on_click=lambda e: self._close_dialog(page, dlg)),
                 ft.TextButton("Sim", on_click=confirmar_cancelamento),
             ],
         )
-        page.open(dlg)
+        page.dialog = dlg
+        dlg.open = True
+        page.update()
+    
+    def _close_dialog(self, page: ft.Page, dlg: ft.AlertDialog):
+        """Fecha o diálogo"""
+        page.dialog = None
+        dlg.open = False
+        page.update()
     
     def _adicionar_navbar(self, page: ft.Page):
         """Adiciona a barra de navegação"""

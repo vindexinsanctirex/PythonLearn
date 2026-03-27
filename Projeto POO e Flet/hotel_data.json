@@ -1,0 +1,80 @@
+{
+  "quartos": [
+    {
+      "numero": 101,
+      "tipo": "Single",
+      "preco_diaria": 150.0,
+      "disponivel": false
+    },
+    {
+      "numero": 102,
+      "tipo": "Single",
+      "preco_diaria": 150.0,
+      "disponivel": true
+    },
+    {
+      "numero": 201,
+      "tipo": "Double",
+      "preco_diaria": 250.0,
+      "disponivel": true
+    },
+    {
+      "numero": 202,
+      "tipo": "Double",
+      "preco_diaria": 250.0,
+      "disponivel": true
+    },
+    {
+      "numero": 301,
+      "tipo": "Suite",
+      "preco_diaria": 450.0,
+      "disponivel": true
+    },
+    {
+      "numero": 302,
+      "tipo": "Suite",
+      "preco_diaria": 450.0,
+      "disponivel": true
+    }
+  ],
+  "clientes": [
+    {
+      "id": "86e40282",
+      "nome": "João Silva",
+      "telefone": "(11) 99999-1111",
+      "email": "joao@email.com"
+    },
+    {
+      "id": "bcc24fa9",
+      "nome": "Maria Santos",
+      "telefone": "(11) 99999-2222",
+      "email": "maria@email.com"
+    },
+    {
+      "id": "817ad06b",
+      "nome": "Pedro Oliveira",
+      "telefone": "(11) 99999-3333",
+      "email": "pedro@email.com"
+    }
+  ],
+  "reservas": [
+    {
+      "id": "e8e49012",
+      "cliente": {
+        "id": "86e40282",
+        "nome": "João Silva",
+        "telefone": "(11) 99999-1111",
+        "email": "joao@email.com"
+      },
+      "quarto": {
+        "numero": 101,
+        "tipo": "Single",
+        "preco_diaria": 150.0,
+        "disponivel": false
+      },
+      "check_in": "2026-03-27",
+      "check_out": "2026-03-31",
+      "status": "Confirmada"
+    }
+  ]
+}
