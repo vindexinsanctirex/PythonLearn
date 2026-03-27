@@ -16,13 +16,13 @@
       "numero": 201,
       "tipo": "Double",
       "preco_diaria": 250.0,
-      "disponivel": true
+      "disponivel": false
     },
     {
       "numero": 202,
       "tipo": "Double",
       "preco_diaria": 250.0,
-      "disponivel": true
+      "disponivel": false
     },
     {
       "numero": 301,
@@ -70,6 +70,42 @@
         "numero": 101,
         "tipo": "Single",
         "preco_diaria": 150.0,
+        "disponivel": false
+      },
+      "check_in": "2026-03-27",
+      "check_out": "2026-03-31",
+      "status": "Confirmada"
+    },
+    {
+      "id": "46930cbb",
+      "cliente": {
+        "id": "bcc24fa9",
+        "nome": "Maria Santos",
+        "telefone": "(11) 99999-2222",
+        "email": "maria@email.com"
+      },
+      "quarto": {
+        "numero": 201,
+        "tipo": "Double",
+        "preco_diaria": 250.0,
+        "disponivel": false
+      },
+      "check_in": "2026-03-27",
+      "check_out": "2026-03-31",
+      "status": "Confirmada"
+    },
+    {
+      "id": "be520e16",
+      "cliente": {
+        "id": "86e40282",
+        "nome": "João Silva",
+        "telefone": "(11) 99999-1111",
+        "email": "joao@email.com"
+      },
+      "quarto": {
+        "numero": 202,
+        "tipo": "Double",
+        "preco_diaria": 250.0,
         "disponivel": false
       },
       "check_in": "2026-03-27",

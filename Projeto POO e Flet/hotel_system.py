@@ -1,4 +1,4 @@
-# hotel_system.py - Versão Final com Correção de Escopo
+# hotel_system.py - Versão Final com Redirecionamento
 import flet as ft
 from datetime import datetime, date, timedelta
 import uuid
@@ -383,10 +383,10 @@ class HotelApp:
                     ft.Text("🏨 Refúgio dos Sonhos", size=24, weight=ft.FontWeight.BOLD),
                     ft.Row(
                         [
-                            ft.ElevatedButton("Início", on_click=lambda e: navegar_para(e, "inicio")),
-                            ft.ElevatedButton("Nova Reserva", on_click=lambda e: navegar_para(e, "nova_reserva")),
-                            ft.ElevatedButton("Minhas Reservas", on_click=lambda e: navegar_para(e, "reservas")),
-                            ft.ElevatedButton("Clientes", on_click=lambda e: navegar_para(e, "clientes")),
+                            ft.Button("Início", on_click=lambda e: navegar_para(e, "inicio")),
+                            ft.Button("Nova Reserva", on_click=lambda e: navegar_para(e, "nova_reserva")),
+                            ft.Button("Minhas Reservas", on_click=lambda e: navegar_para(e, "reservas")),
+                            ft.Button("Clientes", on_click=lambda e: navegar_para(e, "clientes")),
                         ]
                     ),
                 ],
@@ -501,6 +501,13 @@ class HotelApp:
         
         page.add(content)
     
+    def voltar_para_inicio(self, page: ft.Page):
+        """Volta para a tela inicial"""
+        page.clean()
+        # Re-adicionar navbar
+        self._adicionar_navbar(page)
+        self.tela_inicio(page)
+    
     def tela_nova_reserva(self, page: ft.Page):
         """Formulário para criar nova reserva"""
         # Variáveis para armazenar as datas
@@ -540,12 +547,12 @@ class HotelApp:
             picker.open = True
             page.update()
         
-        btn_data_inicio = ft.ElevatedButton(
+        btn_data_inicio = ft.Button(
             "Selecionar Check-in",
             icon=ft.Icons.CALENDAR_MONTH,
             on_click=lambda e: open_date_picker(e, data_inicio),
         )
-        btn_data_fim = ft.ElevatedButton(
+        btn_data_fim = ft.Button(
             "Selecionar Check-out",
             icon=ft.Icons.CALENDAR_MONTH,
             on_click=lambda e: open_date_picker(e, data_fim),
@@ -622,28 +629,34 @@ class HotelApp:
             
             if reserva:
                 self.gerenciador.salvar_dados()
-                page.snack_bar = ft.SnackBar(ft.Text("Reserva criada com sucesso!"), bgcolor=ft.Colors.GREEN)
+                page.snack_bar = ft.SnackBar(ft.Text("Reserva criada com sucesso! Redirecionando..."), bgcolor=ft.Colors.GREEN)
                 page.snack_bar.open = True
                 page.update()
                 
-                # Limpar formulário
-                cliente_dropdown.value = None
-                quarto_dropdown.value = None
-                data_inicio.value = None
-                data_fim.value = None
-                check_in_date[0] = None
-                check_out_date[0] = None
-                txt_data_inicio.value = "Data não selecionada"
-                txt_data_fim.value = "Data não selecionada"
-                txt_valor_total.value = "Valor Total: R$ 0.00"
-                page.update()
+                # Redirecionar para página inicial após 2 segundos
+                import asyncio
+                async def redirect():
+                    await asyncio.sleep(2)
+                    self.voltar_para_inicio(page)
+                
+                asyncio.create_task(redirect())
             else:
                 page.snack_bar = ft.SnackBar(ft.Text("Erro ao criar reserva. Verifique os dados."), bgcolor=ft.Colors.RED)
                 page.snack_bar.open = True
                 page.update()
         
+        # Botão voltar
+        btn_voltar = ft.Button(
+            "← Voltar",
+            icon=ft.Icons.ARROW_BACK,
+            on_click=lambda e: self.voltar_para_inicio(page),
+            style=ft.ButtonStyle(bgcolor=ft.Colors.GREY_300, color=ft.Colors.BLACK),
+        )
+        
         form = ft.Column(
             [
+                btn_voltar,
+                ft.Container(height=10),
                 ft.Text("Nova Reserva", size=24, weight=ft.FontWeight.BOLD),
                 ft.Container(height=20),
                 ft.Text("Dados do Cliente", size=18, weight=ft.FontWeight.BOLD),
@@ -658,7 +671,7 @@ class HotelApp:
                 ft.Container(height=20),
                 txt_valor_total,
                 ft.Container(height=20),
-                ft.ElevatedButton("Confirmar Reserva", on_click=criar_reserva_click, bgcolor=ft.Colors.GREEN, color=ft.Colors.WHITE),
+                ft.Button("Confirmar Reserva", on_click=criar_reserva_click, bgcolor=ft.Colors.GREEN, color=ft.Colors.WHITE),
             ],
             spacing=10,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
@@ -670,8 +683,24 @@ class HotelApp:
         """Tela para visualizar e cancelar reservas"""
         reservas = self.gerenciador.listar_reservas()
         
+        # Botão voltar
+        btn_voltar = ft.Button(
+            "← Voltar",
+            icon=ft.Icons.ARROW_BACK,
+            on_click=lambda e: self.voltar_para_inicio(page),
+            style=ft.ButtonStyle(bgcolor=ft.Colors.GREY_300, color=ft.Colors.BLACK),
+        )
+        
         if not reservas:
-            page.add(ft.Text("Nenhuma reserva encontrada.", size=16))
+            content = ft.Column(
+                [
+                    btn_voltar,
+                    ft.Container(height=20),
+                    ft.Text("Nenhuma reserva encontrada.", size=16),
+                ],
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            )
+            page.add(ft.Container(content=content, padding=20, expand=True))
             return
         
         reservas_list = ft.Column()
@@ -702,7 +731,7 @@ class HotelApp:
                                         border_radius=10,
                                         padding=5,
                                     ),
-                                    ft.ElevatedButton(
+                                    ft.Button(
                                         "Cancelar Reserva",
                                         icon=ft.Icons.CANCEL,
                                         color=ft.Colors.RED,
@@ -719,7 +748,19 @@ class HotelApp:
             )
             reservas_list.controls.append(card)
         
-        page.add(ft.Container(content=reservas_list, padding=20, expand=True, scroll=ft.ScrollMode.AUTO))
+        content = ft.Column(
+            [
+                btn_voltar,
+                ft.Container(height=10),
+                ft.Text("Minhas Reservas", size=24, weight=ft.FontWeight.BOLD),
+                ft.Container(height=20),
+                reservas_list,
+            ],
+            scroll=ft.ScrollMode.AUTO,
+            expand=True,
+        )
+        
+        page.add(ft.Container(content=content, padding=20, expand=True))
     
     def _cancelar_reserva(self, page: ft.Page, reserva: Reserva):
         """Cancela uma reserva"""
@@ -780,10 +821,10 @@ class HotelApp:
                     ft.Text("🏨 Refúgio dos Sonhos", size=24, weight=ft.FontWeight.BOLD),
                     ft.Row(
                         [
-                            ft.ElevatedButton("Início", on_click=lambda e: navegar_para(e, "inicio")),
-                            ft.ElevatedButton("Nova Reserva", on_click=lambda e: navegar_para(e, "nova_reserva")),
-                            ft.ElevatedButton("Minhas Reservas", on_click=lambda e: navegar_para(e, "reservas")),
-                            ft.ElevatedButton("Clientes", on_click=lambda e: navegar_para(e, "clientes")),
+                            ft.Button("Início", on_click=lambda e: navegar_para(e, "inicio")),
+                            ft.Button("Nova Reserva", on_click=lambda e: navegar_para(e, "nova_reserva")),
+                            ft.Button("Minhas Reservas", on_click=lambda e: navegar_para(e, "reservas")),
+                            ft.Button("Clientes", on_click=lambda e: navegar_para(e, "clientes")),
                         ]
                     ),
                 ],
@@ -797,6 +838,14 @@ class HotelApp:
     
     def tela_gerenciar_clientes(self, page: ft.Page):
         """Tela para gerenciar clientes"""
+        # Botão voltar
+        btn_voltar = ft.Button(
+            "← Voltar",
+            icon=ft.Icons.ARROW_BACK,
+            on_click=lambda e: self.voltar_para_inicio(page),
+            style=ft.ButtonStyle(bgcolor=ft.Colors.GREY_300, color=ft.Colors.BLACK),
+        )
+        
         # Formulário para adicionar cliente
         txt_nome = ft.TextField(label="Nome", width=300)
         txt_telefone = ft.TextField(label="Telefone", width=300)
@@ -858,11 +907,13 @@ class HotelApp:
         
         content = ft.Column(
             [
+                btn_voltar,
+                ft.Container(height=10),
                 ft.Text("Gerenciamento de Clientes", size=24, weight=ft.FontWeight.BOLD),
                 ft.Container(height=20),
                 ft.Text("Adicionar Novo Cliente", size=18, weight=ft.FontWeight.BOLD),
                 ft.Row([txt_nome, txt_telefone, txt_email], alignment=ft.MainAxisAlignment.CENTER),
-                ft.ElevatedButton("Adicionar Cliente", on_click=adicionar_cliente, bgcolor=ft.Colors.BLUE, color=ft.Colors.WHITE),
+                ft.Button("Adicionar Cliente", on_click=adicionar_cliente, bgcolor=ft.Colors.BLUE, color=ft.Colors.WHITE),
                 ft.Container(height=30),
                 ft.Text("Lista de Clientes", size=18, weight=ft.FontWeight.BOLD),
                 ft.Container(content=clientes_list, expand=True, scroll=ft.ScrollMode.AUTO),
