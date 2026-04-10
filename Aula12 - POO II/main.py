@@ -1,17 +1,37 @@
+class Disciplina:
+    def __init__(self, nome):
+        self.__nome = nome
+        
+    @property
+    def nome(self):
+        return self.__nome
+
 class Aluno:
     def __init__(self, nome):
         self.__nome = nome
+        
+    @property
+    def nome(self):
+        return self.__nome
 
 class Turma:
     def __init__(self, nome):
         self.__nome = nome
         self.__alunos = []
+        self.__disciplinas = []
+        
+    @property
+    def alunos(self):
+        if self.__alunos:
+            for i in self.__alunos:
+                print(i.nome)
+        else:            print("Não há alunos cadastrados.")
 
     def adicionar_aluno(self, objeto_aluno):
         if isinstance(objeto_aluno, Aluno):
             self.__alunos.append(objeto_aluno)
         else:
-            print("Erro: O objeto não é uma instância da classe Aluno.")
+            raise ValueError("Erro: O objeto não é uma instância da classe Aluno.")
             
 # Criando instâncias de Aluno
 aluno1 = Aluno("João")
